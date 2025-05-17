@@ -1,5 +1,5 @@
 # Stage 1: Build the app
-FROM eclipse-temurin:21.0.3_9-jdk as builder
+FROM eclipse-temurin:21-jdk as builder
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ RUN chmod +x mvnw && \
     ./mvnw clean package
 
 # Stage 2: Create the runtime image
-FROM eclipse-temurin:21.0.3_9-jre-slim
+FROM eclipse-temurin:21-jre-slim
 
 WORKDIR /app
 
@@ -22,6 +22,8 @@ COPY --from=builder /app/target/webApp-0.0.1-SNAPSHOT.jar app.jar
 
 # Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
 
 
 
