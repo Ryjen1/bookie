@@ -17,4 +17,4 @@ RUN mkdir -p target && \
     mvn clean package -DskipTests
 
 # Run the app
-ENTRYPOINT ["java", "-jar", "target/webApp-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "target/Bookie-0.0.1-SNAPSHOT.jar"]
