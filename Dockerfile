@@ -1,29 +1,20 @@
-# Stage 1: Build the app
-FROM eclipse-temurin:21-jdk as builder
+# Use Eclipse Temurin JDK 21
+FROM eclipse-temurin:21-jdk-jammy
 
+# Set working directory
 WORKDIR /app
+
+# Install Maven
+RUN apt-get update && \
+    apt-get install -y maven
 
 # Copy Maven files
 COPY pom.xml .
 COPY src ./src
 
-# Download dependencies and build the app
-RUN chmod +x mvnw && \
-    ./mvnw dependency:resolve && \
-    ./mvnw clean package
-
-# Stage 2: Create the runtime image
-FROM eclipse-temurin:21-jre-slim
-
-WORKDIR /app
-
-# Copy the built JAR from the builder stage
-COPY --from=builder /app/target/webApp-0.0.1-SNAPSHOT.jar app.jar
+# Build the app inside the container
+RUN mkdir -p target && \
+    mvn clean package -DskipTests
 
 # Run the app
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
-
-
-
-
+ENTRYPOINT ["java", "-jar", "target/webApp-0.0.1-SNAPSHOT.jar"]
