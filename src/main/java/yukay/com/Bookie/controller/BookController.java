@@ -18,6 +18,12 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    // Redirect root path to /books
+    @GetMapping("/")
+    public String redirectToBooks() {
+        return "redirect:/books";
+    }
+
     // Show all books
     @GetMapping
     public String listBooks(Model model) {
